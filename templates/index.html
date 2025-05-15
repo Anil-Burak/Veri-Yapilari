@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Kitaplar</title>
+    <style>
+        body { font-family: Arial; padding: 30px; background: #f4f4f4; }
+        #kitapCard { background: white; padding: 20px; border-radius: 8px; max-width: 500px; margin: auto; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        button { margin: 10px; padding: 8px 16px; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <h2 style="text-align:center">Kitap Gezgini</h2>
+    <div id="kitapCard">
+        <h3 id="kitapIsim"></h3>
+        <p><strong>Yazar:</strong> <span id="kitapYazar"></span></p>
+        <p><strong>Açıklama:</strong> <span id="kitapAciklama"></span></p>
+        <p><strong>Sıra:</strong> <span id="kitapSira"></span></p>
+        <div style="text-align: center;">
+            <button onclick="onceki()">⏪ Önceki</button>
+            <button onclick="sonraki()">Sonraki ⏩</button>
+        </div>
+    </div>
+
+    <script>
+        let sira = 1;
+
+        function kitapYukle() {
+            fetch(`/kitap/${sira}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.hata) {
+                        document.getElementById("kitapCard").innerHTML = `<p>${data.hata}</p>`;
+                        return;
+                    }
+                    document.getElementById("kitapIsim").innerText = data.kitap.isim;
+                    document.getElementById("kitapYazar").innerText = data.kitap.yazar;
+                    document.getElementById("kitapAciklama").innerText = data.kitap.aciklama;
+                    document.getElementById("kitapSira").innerText = data.kitap.sira;
+                });
+        }
+
+        function onceki() {
+            if (sira > 1) {
+                sira--;
+                kitapYukle();
+            }
+        }
+
+        function sonraki() {
+            sira++;
+            kitapYukle();
+        }
+
+        kitapYukle(); // ilk yükleme
+    </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import boto3
 import uuid
 import os
@@ -14,6 +14,12 @@ app = Flask(__name__)
 dynamodb = boto3.resource('dynamodb',aws_access_key_id = AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY, region_name='eu-north-1')
 
 kitaplar_tablosu = dynamodb.Table('kitaplar')
+
+
+# Dümenden bir html ile denemek için
+@app.route('/')
+def ana_sayfa():
+    return render_template('index.html')
 
 @app.route('/kitap-ekle', methods=['POST'])
 def kitap_ekle():
