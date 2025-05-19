@@ -16,43 +16,61 @@
         <p><strong>Yazar:</strong> <span id="kitapYazar"></span></p>
         <p><strong>Açıklama:</strong> <span id="kitapAciklama"></span></p>
         <p><strong>Sıra:</strong> <span id="kitapSira"></span></p>
+        <p><strong>Şube:</strong> <span id="kitapSube"></span></p>           <!-- eklendi -->
+        <p><strong>Durum:</strong> <span id="kitapDurum"></span></p>         <!-- eklendi -->
         <div style="text-align: center;">
             <button onclick="onceki()">⏪ Önceki</button>
             <button onclick="sonraki()">Sonraki ⏩</button>
         </div>
     </div>
 
-    <script>
-        let sira = 1;
+<script>
+    let sira = 1;
+    let toplam = 0;
 
-        function kitapYukle() {
-            fetch(`/kitap/${sira}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (data.hata) {
-                        document.getElementById("kitapCard").innerHTML = `<p>${data.hata}</p>`;
-                        return;
-                    }
-                    document.getElementById("kitapIsim").innerText = data.kitap.isim;
-                    document.getElementById("kitapYazar").innerText = data.kitap.yazar;
-                    document.getElementById("kitapAciklama").innerText = data.kitap.aciklama;
-                    document.getElementById("kitapSira").innerText = data.kitap.sira;
-                });
+    function kitapYukle() {
+        fetch(`/kitap/${sira}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.hata) {
+                    document.getElementById("kitapCard").innerHTML = `<p>${data.hata}</p>`;
+                    return;
+                }
+                document.getElementById("kitapIsim").innerText = data.kitap.isim;
+                document.getElementById("kitapYazar").innerText = data.kitap.yazar;
+                document.getElementById("kitapAciklama").innerText = data.kitap.aciklama;
+                document.getElementById("kitapSira").innerText = data.kitap.sira;
+                document.getElementById("kitapSube").innerText = data.kitap.sube || "Genel";
+                document.getElementById("kitapDurum").innerText = data.kitap.durum || "Bilinmiyor";
+
+                // Butonları kontrol et
+                document.querySelector('button[onclick="onceki()"]').disabled = (sira <= 1);
+                document.querySelector('button[onclick="sonraki()"]').disabled = (sira >= toplam);
+            });
+    }
+
+    function kitapSayisiniAl() {
+        fetch('/kitap-sayisi')
+            .then(res => res.json())
+            .then(data => {
+                toplam = data.toplam;
+                kitapYukle(); // ilk kitap yüklensin
+            });
+    }
+
+    function onceki() {
+        if (sira > 1) {
+            sira--;
+            kitapYukle();
         }
+    }
 
-        function onceki() {
-            if (sira > 1) {
-                sira--;
-                kitapYukle();
-            }
-        }
-
-        function sonraki() {
+    function sonraki() {
+        if (sira < toplam) {
             sira++;
             kitapYukle();
         }
+    }
 
-        kitapYukle(); // ilk yükleme
-    </script>
-</body>
-</html>
+    kitapSayisiniAl(); // ilk yüklemede toplam sayıyı çek
+</script>

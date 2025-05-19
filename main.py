@@ -28,11 +28,19 @@ def kitap_ekle():
     veri['kitap_id'] = kitap_id
 
     mevcut_kitaplar = kitaplar_tablosu.scan().get('Items', [])
-    siradaki_numara = len(mevcut_kitaplar) + 1
-    veri['sira'] = siradaki_numara
+    veri['sira'] = len(mevcut_kitaplar) + 1
+
+    veri.setdefault('sube', 'Genel')  # Şube girilmezse genel
+    veri.setdefault('durum', 'mevcut')  # 'mevcut' ya da 'mevcut degil'
 
     kitaplar_tablosu.put_item(Item=veri)
-    return jsonify({'durum': 'eklendi', 'kitap_id': kitap_id, 'sira': siradaki_numara})
+    return jsonify({'durum': 'eklendi', 'kitap_id': kitap_id})
+
+# Sonraki ve önceki butonunu gerekli yerlerde deaktif etmek için
+@app.route('/kitap-sayisi', methods=['GET'])
+def kitap_sayisi():
+    response = kitaplar_tablosu.scan(Select='COUNT')
+    return jsonify({'toplam': response.get('Count', 0)})
 
 @app.route('/kitaplar', methods=['GET'])
 def kitaplari_getir():
