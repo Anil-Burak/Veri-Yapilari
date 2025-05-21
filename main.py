@@ -18,9 +18,8 @@ kitaplar_tablosu = dynamodb.Table('kitaplar')
 
 # Dümenden bir html ile denemek için
 @app.route('/')
-def ana_sayfa():
+def index():
     return render_template('index.html')
-
 @app.route('/kitap-ekle', methods=['POST'])
 def kitap_ekle():
     veri = request.get_json()
@@ -42,11 +41,10 @@ def kitap_sayisi():
     response = kitaplar_tablosu.scan(Select='COUNT')
     return jsonify({'toplam': response.get('Count', 0)})
 
-@app.route('/kitaplar', methods=['GET'])
+@app.route('/api/kitaplar')
 def kitaplari_getir():
     response = kitaplar_tablosu.scan()
-    kitaplar = response.get('Items', [])
-    kitaplar.sort(key=lambda x: int(x.get('sira', 0)))
+    kitaplar = response.get("Items", [])
     return jsonify(kitaplar)
 
 @app.route('/kitap/<int:sira>', methods=['GET'])

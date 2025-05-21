@@ -1,76 +1,360 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <title>Kitaplar</title>
-    <style>
-        body { font-family: Arial; padding: 30px; background: #f4f4f4; }
-        #kitapCard { background: white; padding: 20px; border-radius: 8px; max-width: 500px; margin: auto; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        button { margin: 10px; padding: 8px 16px; font-size: 16px; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kütüphane</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9fbff;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    nav a {
+      margin-right: 10px;
+      text-decoration: none;
+      color: #0056d2;
+      font-weight: bold;
+      padding: 6px 12px;
+      background-color: #e0e0e0;
+      border-radius: 20px;
+      transition: background-color 0.3s;
+    }
+    nav a:hover {
+      background-color: #d4d4d4;
+    }
+    .profile-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
+    .container {
+      display: flex;
+      padding: 20px;
+      gap: 40px;
+    }
+    .sidebar, .main {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .sidebar {
+      width: 30%;
+    }
+    .main {
+      width: 70%;
+    }
+    .search-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    input[type="text"], select {
+      padding: 10px;
+      flex: 1;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .kategori-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .kategori-grid div {
+      background: #f0f6ff;
+      padding: 10px;
+      text-align: center;
+      border-radius: 8px;
+      color: #0056d2;
+      font-weight: bold;
+    }
+    .kitap {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      cursor: pointer;
+    }
+    .kitap img {
+      width: 100px;
+      border-radius: 8px;
+    }
+    .kitap .info {
+      flex: 1;
+    }
+    .mevcut {
+      background: green;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      position: absolute;
+      margin-top: 4px;
+    }
+    .stars {
+      color: orange;
+    }
+    .onerilen-container {
+      background: #e2e8f8;
+      padding: 30px 60px;
+    }
+    .onerilen-baslik {
+      font-size: 20px;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+    .onerilen-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 35px;
+    }
+    .onerilen-kart {
+      background: white;
+      border-radius: 10px;
+      padding: 10px;
+      position: relative;
+      transition: transform 0.2s;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .onerilen-kart:hover {
+      transform: scale(1.03);
+    }
+    .onerilen-kart img {
+      width: 100%;
+      border-radius: 6px;
+      object-fit: cover;
+      height: 220px;
+    }
+    .onerilen-kart h4 {
+      font-size: 14px;
+      margin: 8px 0 4px;
+      text-align: center;
+    }
+    .onerilen-kart p {
+      font-size: 13px;
+      margin: 0;
+      text-align: center;
+      color: #555;
+    }
+    .baslik-kutu {
+      position: relative;
+      display: inline-block;
+      padding: 7px 19px;
+      margin: 0px;
+      background: linear-gradient(135deg, #678fc7, #0c539f);
+      clip-path: polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%);
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    /* Kitap detay başlangıçta gizli */
+    .kitap-detay {
+      display: none;
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    .kitap-detay img {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      display: block;
+    }
+    .kitap-detay h2 {
+      margin: 0 0 10px 0;
+    }
+    .kitap-detay p {
+      margin: 6px 0;
+      color: #333;
+    }
+    .geri-btn {
+      margin-top: 15px;
+      background-color: #0056d2;
+      border: none;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-    <h2 style="text-align:center">Kitap Gezgini</h2>
-    <div id="kitapCard">
-        <h3 id="kitapIsim"></h3>
-        <p><strong>Yazar:</strong> <span id="kitapYazar"></span></p>
-        <p><strong>Açıklama:</strong> <span id="kitapAciklama"></span></p>
-        <p><strong>Sıra:</strong> <span id="kitapSira"></span></p>
-        <p><strong>Şube:</strong> <span id="kitapSube"></span></p>           <!-- eklendi -->
-        <p><strong>Durum:</strong> <span id="kitapDurum"></span></p>         <!-- eklendi -->
-        <div style="text-align: center;">
-            <button onclick="onceki()">⏪ Önceki</button>
-            <button onclick="sonraki()">Sonraki ⏩</button>
-        </div>
+  <header>
+    <div class="baslik-kutu">
+      <h2>Kütüphane</h2>
+    </div>
+    <nav>
+      <a href="#">Ana Sayfa</a>
+      <a href="#">Kategoriler</a>
+      <a href="#">Kitaplarım</a>
+      <img src="https://cdn-icons-png.flaticon.com/512/1077/1077012.png" alt="Profil" class="profile-icon" />
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="sidebar">
+      <div class="search-bar">
+        <input type="text" placeholder="Kitaplarda ara..." />
+        <select>
+          <option>Şube Seç...</option>
+        </select>
+        <button>Ara</button>
+      </div>
+      <h3>Kategoriler</h3>
+      <div class="kategori-grid">
+        <div>Roman</div>
+        <div>Öykü</div>
+        <div>Gerilim</div>
+        <div>Biyografi</div>
+        <div>Tarih</div>
+        <div>Bilim</div>
+      </div>
     </div>
 
-<script>
-    let sira = 1;
-    let toplam = 0;
+    <div class="main">
+  <h3>Popüler Kitaplar</h3>
+  <div class="kitap" id="populer-kitap">
+    <div style="position: relative;">
+      <span class="mevcut" id="populer-durum">Mevcut</span>
+      <img src="/static/images/placeholder.png" alt="Popüler Kitap" id="populer-img" />
+    </div>
+    <div class="info">
+      <h4 id="populer-baslik">Kitap Başlığı</h4>
+      <p id="populer-yazar">Yazar Adı</p>
+      <div class="stars">★★★★☆</div>
+      <p id="populer-aciklama">Kitap açıklaması buraya gelecek.</p>
+      <button class="kirala-btn">Kirala</button>
+    </div>
+  </div>
+</div>
+  </div>
 
-    function kitapYukle() {
-        fetch(`/kitap/${sira}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.hata) {
-                    document.getElementById("kitapCard").innerHTML = `<p>${data.hata}</p>`;
-                    return;
-                }
-                document.getElementById("kitapIsim").innerText = data.kitap.isim;
-                document.getElementById("kitapYazar").innerText = data.kitap.yazar;
-                document.getElementById("kitapAciklama").innerText = data.kitap.aciklama;
-                document.getElementById("kitapSira").innerText = data.kitap.sira;
-                document.getElementById("kitapSube").innerText = data.kitap.sube || "Genel";
-                document.getElementById("kitapDurum").innerText = data.kitap.durum || "Bilinmiyor";
+  <div class="onerilen-container">
+    <div class="onerilen-baslik">Öne Çıkan / Önerilen Kitaplar</div>
+    <div class="onerilen-grid" id="kitap-listesi">
+      <!-- Kitaplar buraya JS ile gelecek -->
+    </div>
+  </div>
 
-                // Butonları kontrol et
-                document.querySelector('button[onclick="onceki()"]').disabled = (sira <= 1);
-                document.querySelector('button[onclick="sonraki()"]').disabled = (sira >= toplam);
-            });
-    }
+  <div class="kitap-detay" id="kitap-detay">
+    <!-- Kitap detay buraya JS ile gelecek -->
+  </div>
 
-    function kitapSayisiniAl() {
-        fetch('/kitap-sayisi')
-            .then(res => res.json())
-            .then(data => {
-                toplam = data.toplam;
-                kitapYukle(); // ilk kitap yüklensin
-            });
-    }
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
 
-    function onceki() {
-        if (sira > 1) {
-            sira--;
-            kitapYukle();
+    fetch("/api/kitaplar")
+      .then((response) => response.json())
+      .then((kitaplar) => {
+        const listeDiv = document.getElementById("kitap-listesi");
+        const detayDiv = document.getElementById("kitap-detay");
+
+        const populerKitap = kitaplar[Math.floor(Math.random() * kitaplar.length)];
+      const populerDiv = document.getElementById("populer-kitap");
+
+      if (populerKitap && populerDiv) {
+        populerDiv.setAttribute("onclick", `window.location.href='kitap.html?id=${populerKitap.kitap_id}'`);
+
+        const populerImg = document.getElementById("populer-img");
+        populerImg.src = "/static/images/placeholder.png"; // Görsel eklenince güncellenecek
+        populerImg.alt = populerKitap.isim;
+
+        document.querySelector("#populer-kitap .mevcut").textContent =
+          populerKitap.durum === "mevcut" ? "Mevcut" : "Mevcut Değil";
+
+        document.getElementById("populer-baslik").textContent = populerKitap.isim;
+        document.getElementById("populer-yazar").textContent = populerKitap.yazar || "Bilinmiyor";
+        document.getElementById("populer-aciklama").textContent = populerKitap.aciklama || "Açıklama bulunamadı.";
+      }
+        
+
+        if (id) {
+          // Detay göster
+          const kitap = kitaplar.find((k) => k.kitap_id == id);
+          if (kitap) {
+            const gorselSrc = kitap.gorsel_url || "/static/images/placeholder.png";
+            detayDiv.innerHTML = `
+              <img src="${gorselSrc}" alt="${kitap.isim}" />
+              <h2>${kitap.isim}</h2>
+              <p><strong>Yazar:</strong> ${kitap.yazar || "Bilinmiyor"}</p>
+              <p><strong>Şube:</strong> ${kitap.sube || "Bilinmiyor"}</p>
+              <p><strong>Durum:</strong> ${kitap.durum || "Bilinmiyor"}</p>
+              <p>${kitap.aciklama || "Açıklama bulunamadı."}</p>
+              <button class="geri-btn" id="geriBtn">Geri</button>
+            `;
+            detayDiv.style.display = "block";
+            listeDiv.style.display = "none";
+
+            document.getElementById("geriBtn").onclick = () => {
+              // Sayfayı ana sayfaya çevir (query string temizle)
+              window.history.pushState({}, "", window.location.pathname);
+              detayDiv.style.display = "none";
+              listeDiv.style.display = "grid";
+            };
+          } else {
+            detayDiv.innerHTML = "<p>Kitap bulunamadı.</p>";
+            detayDiv.style.display = "block";
+            listeDiv.style.display = "none";
+          }
+        } else {
+          // Listeyi göster
+          detayDiv.style.display = "none";
+          listeDiv.style.display = "grid";
+          listeDiv.innerHTML = "";
+
+          kitaplar.forEach((kitap) => {
+            const gorselSrc = kitap.gorsel_url || "/static/images/placeholder.png";
+            const kitapDiv = document.createElement("div");
+            kitapDiv.className = "onerilen-kart";
+            kitapDiv.innerHTML = `
+              <div style="position: relative; width: 100%; height: 220px; overflow: hidden;">
+                <span class="mevcut" style="position: absolute; top: 8px; left: 8px;">${
+                  kitap.durum === "mevcut" ? "Mevcut" : "Mevcut Değil"
+                }</span>
+                <img src="${gorselSrc}" alt="${kitap.isim}" />
+              </div>
+              <h4>${kitap.isim}</h4>
+              <p>${kitap.yazar || "Bilinmeyen yazar"}</p>
+            `;
+            kitapDiv.onclick = () => {
+              window.location.href = `kitap.html?id=${kitap.kitap_id}`;
+            };
+            listeDiv.appendChild(kitapDiv);
+          });
         }
-    }
-
-    function sonraki() {
-        if (sira < toplam) {
-            sira++;
-            kitapYukle();
-        }
-    }
-
-    kitapSayisiniAl(); // ilk yüklemede toplam sayıyı çek
-</script>
+      })
+      .catch((error) => {
+        console.error("Kitap verisi alınırken hata:", error);
+      });
+  </script>
+</body>
+</html>
