@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Kitap Detayı</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9fbff;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .baslik-kutu {
+      position: relative;
+      display: inline-block;
+      padding: 7px 19px;
+      background: linear-gradient(135deg, #678fc7, #0c539f);
+      clip-path: polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%);
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #0056d2;
+      font-weight: bold;
+      padding: 6px 12px;
+      background-color: #e0e0e0;
+      border-radius: 20px;
+      transition: background-color 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #d4d4d4;
+    }
+
+    .profile-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
+
+    .search-bar {
+      display: flex;
+      gap: 10px;
+      padding: 20px;
+    }
+
+    input[type="text"], select {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      flex: 1;
+    }
+
+    .kitap-detay {
+      display: flex;
+      gap: 40px;
+      padding: 40px;
+    }
+
+    .kitap-detay img {
+      width: 200px;
+      border-radius: 10px;
+    }
+
+    .bilgiler {
+      max-width: 600px;
+    }
+
+    .bilgiler h2 {
+      margin-bottom: 10px;
+    }
+
+    .bilgiler .yazar, .yayinevi, .puan {
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    .bilgiler p {
+      margin-top: 15px;
+      line-height: 1.5;
+    }
+
+    .kirala-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="baslik-kutu">Kütüphane</div>
+    <nav>
+      <a href="deneme.html">Ana Sayfa</a>
+      <a href="#">Kategoriler</a>
+      <a href="#">Kitaplarım</a>
+      <img src="https://cdn-icons-png.flaticon.com/512/1077/1077012.png" alt="Profil" class="profile-icon">
+    </nav>
+  </header>
+
+  <div class="search-bar">
+    <input type="text" placeholder="Kitaplarda ara...">
+    <select>
+      <option>Şube Seç...</option>
+    </select>
+    <button>Ara</button>
+  </div>
+
+  <div class="kitap-detay">
+    <img src="" alt="" style="width: 250px; border-radius: 10px;">
+<div class="bilgiler">
+  <h2></h2>
+  <div class="yazar"></div>
+  <div class="yayinevi"></div>
+  <div class="puan"></div>
+  <p></p>
+  <button class="kirala-btn">Kirala</button>
+</div>
+  </div>
+<script>
+  const kitaplar = [
+    {
+      id: 1,
+      title: "Algoritma Geliştirme ve Veri Yapıları",
+      author: "Rifat Çölkesen",
+      publisher: "Papatya Yayıncılık",
+      rating: 5,
+      description: "Algoritmaların temellerini öğrenmek isteyenler için detaylı bir rehber.",
+      image: "images/algoritma-gelistirme-ve-veri-yapilari.png"
+    },
+    {
+      id: 2,
+      title: "Python",
+      author: "Mustafa Başer",
+      publisher: "DİKEYEKSEN YAYINCILIK",
+      rating: 4,
+      description: "Python, ilk sürümünden (1990 yılının başında) bu yana dikkatleri üzerine çeken bir programlama dilidir. Bu kitap yeni başlayanlar için rehberdir.",
+      image: "images/python.png"
+    },
+    {
+      id: 3,
+      title: "C İle Programlama",
+      author: "Paul Deitel",
+      publisher: "Deitel & Associates",
+      rating: 5,
+      description: "C dili ile etkili programlamanın yolları.",
+      image: "images/c-ile-programlama.png"
+    },
+    {
+      id: 4,
+      title: "C++ EĞİTİM KİTABI",
+      author: "M.Mastar-S.Eriş",
+      publisher: "Kodlab Yayıncılık",
+      rating: 3,
+      description: "C++ dili için öğretici ve uygulamalı örnekler.",
+      image: "images/c++-egitim-kitabi.png"
+    },
+    {
+      id: 5,
+      title: "C# Eğitim Kitabı",
+      author: "Murat Yücedağ",
+      publisher: "Kodlab",
+      rating: 4,
+      description: "C# diline yeni başlayanlar için hazırlanmış kapsamlı kaynak.",
+      image: "images/c-egitim-kitabi.png"
+    },
+    {
+      id: 6,
+      title: "Algoritma",
+      author: "Kadir Çamoğlu",
+      publisher: "Akademik Yayınlar",
+      rating: 5,
+      description: "Algoritma mantığını öğreten detaylı içerik.",
+      image: "images/algoritma.png"
+    },
+    {
+      id: 7,
+      title: "Javascript Programlama",
+      author: "İbrahim Çelikbilek",
+      publisher: "Abaküs Kitap",
+      rating: 4,
+      description: "HTML5, CSS3 ve JavaScript ile interaktif web programlama öğrenin.",
+      image: "images/javascript.png"
+    }
+  ];
+
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+  const kitap = kitaplar.find(k => k.id == id);
+
+  if (kitap) {
+    document.querySelector(".kitap-detay img").src = kitap.image;
+    document.querySelector(".kitap-detay img").alt = kitap.title;
+    document.querySelector(".bilgiler h2").textContent = kitap.title;
+    document.querySelector(".bilgiler .yazar").textContent = "Yazar: " + kitap.author;
+    document.querySelector(".bilgiler .yayinevi").textContent = "Yayınevi: " + kitap.publisher;
+    document.querySelector(".bilgiler .puan").textContent = "★".repeat(kitap.rating) + "☆".repeat(5 - kitap.rating);
+    document.querySelector(".bilgiler p").textContent = kitap.description;
+  } else {
+    document.querySelector(".kitap-detay").innerHTML = "<p>Kitap bulunamadı.</p>";
+  }
+</script>
+
+</body>
+</html>
